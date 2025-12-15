@@ -8,9 +8,9 @@ import pandas as pd
 # ===============================
 @st.cache_resource
 def load_models():
-    scaler = joblib.load("scaler_svm_rice.pkl")
-    svm_model = joblib.load("svm_rice_model.pkl")
-    xgb_model = joblib.load("xgboost_rice_model.pkl")
+    scaler = joblib.load("Tubes/scaler_svm_rice.pkl")
+    svm_model = joblib.load("Tubes/svm_rice_model.pkl")
+    xgb_model = joblib.load("Tubes/xgboost_rice_model.pkl")
     return scaler, svm_model, xgb_model
 
 
@@ -76,3 +76,4 @@ if st.button("🔍 Prediksi"):
 # ===============================
 st.markdown("---")
 st.caption("📊 Dataset: Rice (Cammeo and Osmancik) - UCI ML Repository")
+
