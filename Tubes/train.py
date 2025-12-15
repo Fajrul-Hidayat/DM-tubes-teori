@@ -26,21 +26,14 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 import joblib
 
 
-# ===============================
-# DATA PREPARATION
-# ===============================
 df = pd.concat([X, y], axis=1)
 df.head()
 
 X = df.drop(columns=['Class'])
 
-# ⬇⬇⬇ LABEL STRING (UNTUK SVM)
 y_str = df['Class']
 
 
-# ===============================
-# SPLIT DATA (SATU KALI SAJA)
-# ===============================
 X_train, X_test, y_train_str, y_test_str = train_test_split(
     X, y_str,
     test_size=0.2,
@@ -48,10 +41,6 @@ X_train, X_test, y_train_str, y_test_str = train_test_split(
     stratify=y_str
 )
 
-
-# ===============================
-# SVM (TANPA ENCODE LABEL)
-# ===============================
 scaler = StandardScaler()
 
 X_train_scaled = scaler.fit_transform(X_train)
@@ -72,9 +61,6 @@ print(classification_report(y_test_str, y_pred_svm))
 print("Accuracy:", accuracy_score(y_test_str, y_pred_svm))
 
 
-# ===============================
-# XGBOOST (ENCODE LABEL KHUSUS)
-# ===============================
 label_map = {'Cammeo': 0, 'Osmancik': 1}
 
 y_train_xgb = y_train_str.map(label_map)
@@ -98,9 +84,6 @@ print(classification_report(y_test_xgb, y_pred_xgb))
 print("Accuracy:", accuracy_score(y_test_xgb, y_pred_xgb))
 
 
-# ===============================
-# CONFUSION MATRIX
-# ===============================
 fig, axes = plt.subplots(1, 2, figsize=(12,4))
 
 # SVM
@@ -125,10 +108,7 @@ axes[1].set_ylabel("Actual")
 
 plt.show()
 
-
-# ===============================
-# SAVE MODEL
-# ===============================
 joblib.dump(scaler, "scaler_svm_rice.pkl")
 joblib.dump(svm_model, "svm_rice_model.pkl")
 joblib.dump(xgb_model, "xgboost_rice_model.pkl")
+
