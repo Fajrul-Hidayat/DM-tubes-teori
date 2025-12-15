@@ -3,9 +3,6 @@ import numpy as np
 import joblib
 import pandas as pd
 
-# ===============================
-# LOAD MODEL
-# ===============================
 @st.cache_resource
 def load_models():
     scaler = joblib.load("Tubes/scaler_svm_rice.pkl")
@@ -16,25 +13,16 @@ def load_models():
 
 scaler, svm_model, xgb_model = load_models()
 
-# ===============================
-# STREAMLIT UI
-# ===============================
 st.set_page_config(page_title="Rice Classification", layout="centered")
 
 st.title("🍚 Rice Classification App")
 st.write("Klasifikasi varietas beras **Cammeo** dan **Osmancik** menggunakan Machine Learning")
 
-# ===============================
-# MODEL SELECTION
-# ===============================
 model_choice = st.selectbox(
     "Pilih Model Klasifikasi",
     ["SVM", "XGBoost"]
 )
 
-# ===============================
-# INPUT FEATURES
-# ===============================
 st.subheader("Masukkan Fitur Beras")
 
 area = st.number_input("Area", min_value=0.0, value=12000.0)
@@ -45,13 +33,9 @@ eccentricity = st.number_input("Eccentricity", min_value=0.0, max_value=1.0, val
 convex_area = st.number_input("Convex Area", min_value=0.0, value=13000.0)
 extent = st.number_input("Extent", min_value=0.0, max_value=1.0, value=0.75)
 
-# Gabungkan input ke array
 input_data = np.array([[area, perimeter, major_axis, minor_axis,
                          eccentricity, convex_area, extent]])
 
-# ===============================
-# PREDICTION
-# ===============================
 if st.button("🔍 Prediksi"):
     if model_choice == "SVM":
         input_scaled = scaler.transform(input_data)
@@ -71,9 +55,7 @@ if st.button("🔍 Prediksi"):
         st.write(f"Probabilitas Cammeo : `{probability[0]:.2f}`")
         st.write(f"Probabilitas Osmancik : `{probability[1]:.2f}`")
 
-# ===============================
-# FOOTER
-# ===============================
 st.markdown("---")
 st.caption("📊 Dataset: Rice (Cammeo and Osmancik) - UCI ML Repository")
+
 
